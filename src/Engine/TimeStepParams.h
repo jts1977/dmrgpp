@@ -100,11 +100,14 @@ namespace Dmrg {
 				: TargetParamsCommonType(io,model),tau(0),timeSteps(0),
 				  advanceEach(0)
 			{
-				io.rewind();
+				//io.rewind();//SOMETHING EQUIVALENT NEEDED
 				this->concatenation = PRODUCT;
-				io.readline(tau,"TSPTau=");
-				io.readline(timeSteps,"TSPTimeSteps=");
-				io.readline(advanceEach,"TSPAdvanceEach=");
+				tau <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPTau="]; //LINE ADDED FOR JSON FORMAT NEEDS WORK 
+				//io.readline(tau,"TSPTau=");
+				timeSteps <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPTimeSteps="]; //LINE ADDED FOR JSON FORMAT NEEDS WORK
+				//io.readline(timeSteps,"TSPTimeSteps=");
+				advanceEach <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPAdvanceEach="]; //LINE ADDED FOR JSON FORMAT NEEDS WORK
+				//io.readline(advanceEach,"TSPAdvanceEach=");
 			}
 			
 			RealType tau;

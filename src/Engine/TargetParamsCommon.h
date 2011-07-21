@@ -81,6 +81,7 @@ DISCLOSED WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS.
 #ifndef TARGET_PARAMS_COMMON_H
 #define TARGET_PARAMS_COMMON_H
 
+#include "JsonReader.h"
 
 namespace Dmrg {
 	//! Coordinates reading of TargetSTructure from input file
@@ -102,10 +103,10 @@ namespace Dmrg {
 				: sites(0),startingLoops(0),concatenation(PRODUCT),
 				  model_(model)
 			{
-
-				//io.readline(filename,"TSPFilename="); // filename
-				io.read(sites,"TSPSites");
-				io.read(startingLoops,"TSPLoops");
+				sites <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPSites"];//LINE ADDED FOR JSON FORMAT
+				//io.read(sites,"TSPSites");
+				startingLoops <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPLoops"];//LINE ADDED FOR JSON FORMAT
+				//io.read(startingLoops,"TSPLoops");
 			
 				data_.resize(sites.size());
 				aOperators.resize(sites.size());
@@ -115,26 +116,33 @@ namespace Dmrg {
 			
 				for (size_t i=0;i<sites.size();i++) {
 					std::string s;
-					io.readline(s,"TSPOperator=");
+					s <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPOperator"];//LINE ADDED FOR JSON FORMAT
+					//io.readline(s,"TSPOperator=");
 					if (s == "cooked") {
-						io.readline(s,"COOKED_OPERATOR=");
+						s <= io["programSpecific"]["DMRGPP"]["Dynamic"]["COOKED_OPERATOR"];//LINE ADDED FOR JSON FORMAT
+						//io.readline(s,"COOKED_OPERATOR=");
 						std::vector<size_t> v;
-						io.read(v,"COOKED_EXTRA");
+						v <= io["programSpecific"]["DMRGPP"]["Dynamic"]["COOKED_EXTRA"];//LINE ADDED FOR JSON FORMAT
+						//io.read(v,"COOKED_EXTRA");
 						setCookedData(i,s,v);
 					} else {
 						PsimagLite::Matrix<ComplexOrReal> m;
-						io.readMatrix(m,"RAW_MATRIX");
+						dca::operator<=(m , io["programSpecific"]["DMRGPP"]["Dynamic"]["RAW_MATRIX"]);//LINE ADDED FOR JSON FORMAT
+						//io.readMatrix(m,"RAW_MATRIX");
 						setRawData(i,m);
 					}
 					int fermiSign=0;
-					io.readline(fermiSign,"FERMIONSIGN=");
+					fermiSign <= io["programSpecific"]["DMRGPP"]["Dynamic"]["FermionSign"];//LINE ADDED FOR JSON FORMAT
+					//io.readline(fermiSign,"FERMIONSIGN=");
 					std::pair<size_t,size_t> jmValues;
 					std::vector<size_t> v(2);
-					io.readKnownSize(v,"JMVALUES");
+					v <= io["programSpecific"]["DMRGPP"]["Dynamic"]["JMVALUES"];//LINE ADDED FOR JSON FORMAT
+					//io.readKnownSize(v,"JMVALUES");
 					jmValues.first = v[0]; jmValues.second = v[1];
-					RealType angularFactor;
-					io.readline(angularFactor,"AngularFactor=");
-					//tsp.set(i,fermiSign,jmValues,angularFactor);
+					RealType angularFactor = 0;
+					angularFactor <= io["programSpecific"]["DMRGPP"]["Dynamic"]["AngularFactor"];//LINE ADDED FOR JSON FORMAT
+					//io.readline(angularFactor,"AngularFactor=");
+					//tsp.set(i,fermiSign,jmValues,angularFactor);     //Need work
 					SparseMatrixType data(data_[i]);
 	
 					// FIXME: su2related needs to be set properly for when SU(2) is running: 

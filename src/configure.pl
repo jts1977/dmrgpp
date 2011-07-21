@@ -39,6 +39,8 @@ my ($electrons,$momentumJ,$su2Symmetry);
 my ($pthreads,$pthreadsLib)=(0,"");
 my $brand= "v2.0";
 my ($connectorsArgs,$connectorsArgs2,$dof,$connectors2,$connectorValue2);
+#my $targetting;
+#$DynamicTargetting = "DynamicTargettingEmpty" if ($hasGsl=~/n/i);
 
 my $gslLibs = " -lgsl  -lgslcblas ";
 $gslLibs =" " if ($hasGsl=~/n/i);
@@ -172,7 +174,8 @@ print FOUT<<EOF;
 # MPI: $mpi
 
 LDFLAGS =    $lapack  $gslLibs $pthreadsLib
-CPPFLAGS = -Werror -Wall  -IEngine $modelLocation -IGeometries -I$PsimagLite
+CPPFLAGS = -Werror -Wall  -IEngine $modelLocation -IGeometries -I$PsimagLite \\
+ -I$PsimagLite/JSON -I$PsimagLite/JSON/JsonParser
 EOF
 if ($mpi) {
 	print FOUT "CXX = mpicxx -O2 -DNDEBUG \n";
@@ -186,12 +189,9 @@ all: \$(EXENAME)
 dmrg:  dmrg.o
 	\$(CXX) -o dmrg dmrg.o \$(LDFLAGS)  
 
-correctionVectorMulti: correctionVectorMulti.o
-	\$(CXX) -o correctionVectorMulti correctionVectorMulti.o \$(LDFLAGS)
-
 # dependencies brought about by Makefile.dep
-%.o: %.cpp
-	\$(CXX) \$(CPPFLAGS) -c \$< 
+dmrg.o:
+	\$(CXX) \$(CPPFLAGS) -c dmrg.cpp
 
 Makefile.dep: dmrg.cpp
 	\$(CXX) \$(CPPFLAGS) -MM dmrg.cpp  > Makefile.dep
@@ -245,11 +245,13 @@ print FOUT<<EOF;
 /* DO NOT EDIT!!! Changes will be lost. Modify configure.pl instead
  * This driver program was written by configure.pl
  * DMRG++ ($brand) by G.A.*/
+#include "JsonReader.h"
+#include "DefaultContext.h"
 #include "CrsMatrix.h"
 #include "LanczosSolver.h"
 #include "BlockMatrix.h"
 #include "DmrgSolver.h"
-#include "IoSimple.h"
+//#include "IoSimple.h"
 #include "Operator.h"
 #include "$concurrencyName.h"
 #include "$modelName.h"
@@ -266,7 +268,6 @@ print FOUT<<EOF;
 #include "DynamicTargetting.h"
 #include "AdaptiveDynamicTargetting.h"
 #include "CorrectionTargetting.h"
-#include "CorrectionVectorTargetting.h"
 #include "VectorWithOffset.h"
 #include "VectorWithOffsets.h"
 #include "BasisWithOperators.h"
@@ -347,7 +348,8 @@ int main(int argc,char *argv[])
 	MyConcurrency concurrency(argc,argv);
 	
 	//Setup the Geometry
-	typedef PsimagLite::IoSimple::In IoInputType;
+	typedef dca::JsonReader IoInputType;
+	//typedef PsimagLite::IoSimple::In IoInputType;
 	IoInputType io(argv[1]);
 	GeometryType geometry(io);
 
@@ -365,7 +367,6 @@ int main(int argc,char *argv[])
 	if (dmrgSolverParams.options.find("TimeStepTargetting")!=std::string::npos) targetting="TimeStepTargetting";
 	if (dmrgSolverParams.options.find("DynamicTargetting")!=std::string::npos) targetting="DynamicTargetting";
 	if (dmrgSolverParams.options.find("AdaptiveDynamicTargetting")!=std::string::npos) targetting="AdaptiveDynamicTargetting";
-	if (dmrgSolverParams.options.find("CorrectionVectorTargetting")!=std::string::npos) targetting="CorrectionVectorTargetting";
 	if (dmrgSolverParams.options.find("CorrectionTargetting")!=std::string::npos) targetting="CorrectionTargetting";
 	if (targetting!="GroundStateTargetting" && su2) throw std::runtime_error("SU(2)"
  		" supports only GroundStateTargetting for now (sorry!)\\n");
@@ -405,14 +406,6 @@ int main(int argc,char *argv[])
 		mainLoop<ParametersModelType,GeometryType,ParametersDmrgSolver<MatrixElementType>,MyConcurrency,
 			IoInputType,
 			$modelName,ModelHelperLocal,InternalProductOnTheFly,VectorWithOffsets,AdaptiveDynamicTargetting,
-			MySparseMatrixReal>
-			(mp,geometry,dmrgSolverParams,concurrency,io,targetting);
-			return 0;
-	}
-	if (targetting=="CorrectionVectorTargetting") {
-		mainLoop<ParametersModelType,GeometryType,ParametersDmrgSolver<MatrixElementType>,MyConcurrency,
-			IoInputType,
-			$modelName,ModelHelperLocal,InternalProductOnTheFly,VectorWithOffsets,CorrectionVectorTargetting,
 			MySparseMatrixReal>
 			(mp,geometry,dmrgSolverParams,concurrency,io,targetting);
 			return 0;
@@ -477,10 +470,11 @@ print OBSOUT<<EOF;
 /* DO NOT EDIT!!! Changes will be lost. Modify configure.pl instead
  * This driver program was written by configure.pl
  * DMRG++ ($brand) by G.A.*/
-	
+#include "JsonReader.h"
+#include "DefaultContext.h"	
 #include "Observer.h"
 #include "ObservableLibrary.h"
-#include "IoSimple.h"
+//#include "IoSimple.h"
 #include "$modelName.h" 
 #include "$operatorsName.h" 
 #include "$concurrencyName.h" 

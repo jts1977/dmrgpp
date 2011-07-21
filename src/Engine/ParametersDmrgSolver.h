@@ -197,18 +197,36 @@ namespace Dmrg {
 		template<typename IoInputType>
 		ParametersDmrgSolver(IoInputType& io) 
 		{
-			io.readline(options,"SolverOptions="); 
-			io.readline(version,"Version=");
-			io.readline(filename,"OutputFile=");
-			io.readline(keptStatesInfinite,"InfiniteLoopKeptStates=");
-			io.read(finiteLoop,"FiniteLoops");
-			if (options.find("hasQuantumNumbers")!=std::string::npos) 
-				io.read(targetQuantumNumbers,"TargetQuantumNumbers");
+			options <= io["programSpecific"]["DCA"]["Solver"]["SolverOptions"];//ADDED LINE FOR JSON FOMAT
+			//io.readline(options,"SolverOptions="); 
+			version <= io["programSpecific"]["DCA"]["Solver"]["Version"];//ADDED LINE FOR JSON FOMAT
+			//io.readline(version,"Version=");
+			filename <= io["programSpecific"]["DCA"]["Solver"]["OutputFile"];//ADDED LINE FOR JSON FOMAT
+			//io.readline(filename,"OutputFile=");
+			std::vector<int> tmpVec;
+			tmpVec <= io["programSpecific"]["DCA"]["Solver"]["InfiniteLoopKeptStates"];//ADDED LINE FOR JSON FOMAT
+			size_t i = 0;
+			size_t j = 0;
+			if (tmpVec.size() == 0 && tmpVec.size()%3 !=0) throw std::runtime_error("Error reading Finite Loops\n");
+			while (i<tmpVec.size()) {
+				finiteLoop[j].stepLength = tmpVec[i++];
+				finiteLoop[j].keptStates = tmpVec[i++];
+				finiteLoop[j].saveOption = tmpVec[i++];
+				j++;
+			}
+			//io.readline(keptStatesInfinite,"InfiniteLoopKeptStates=");
+			//finiteLoop <= io["programSpecific"]["DCA"]["Solver"]["FiniteLoops"];//ADDED LINE FOR JSON FOMAT
+			//io.read(finiteLoop,"FiniteLoops");
+			if (options.find("hasQuantumNumbers")!=std::string::npos)
+				targetQuantumNumbers <= io["programSpecific"]["DCA"]["Solver"]["TargetQuantumNumbers"];//ADDED LINE FOR JSON FOMAT
+				//io.read(targetQuantumNumbers,"TargetQuantumNumbers");
 			if (options.find("checkpoint")!=std::string::npos)
-				io.readline(checkpoint.filename,"CheckpointFilename=");
+				checkpoint.filename <= io["programSpecific"]["DCA"]["Solver"]["CheckpointFilename"];//ADDED LINE FOR JSON FOMAT
+				//io.readline(checkpoint.filename,"CheckpointFilename=");
 			nthreads=1; // provide a default value
 			if (options.find("hasThreads")!=std::string::npos)
-				io.readline(nthreads,"Threads=");
+				nthreads <= io["programSpecific"]["DCA"]["Solver"]["Threads"];//ADDED LINE FOR JSON FOMAT
+				//io.readline(nthreads,"Threads=");
 			
 		} 
 

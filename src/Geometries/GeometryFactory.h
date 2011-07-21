@@ -161,21 +161,25 @@ namespace Dmrg {
 					break;
 				case LADDER:
 					dirs_ = 2;
-					io.readline(x,"LadderLeg=");
+					x<=io["programSpecific"]["DMRGPP"]["Geometry"]["LadderLeg"];//ADDED LINE FOR JSON FOMAT
+					//io.readline(x,"LadderLeg=");Replaced line 
 					if (x!=2) throw std::runtime_error("LadderLeg!=2 is not implememnted yet (sorry)\n");
 					ladder_ = new Ladder(linSize,x);
 					break;
 				case LADDERX:
 					dirs_ = 4;
-					io.readline(x,"LadderLeg=");
+					x<=io["programSpecific"]["DMRGPP"]["Geometry"]["LadderLeg"];//ADDED LINE FOR JSON FOMAT
+					//io.readline(x,"LadderLeg=");
 					if (x!=2) throw std::runtime_error("LadderLeg!=2 is not implememnted yet (sorry)\n");
 					ladderx_ = new LadderX(linSize,x);
 					break;
 				case LADDERBATH:
 					dirs_ = 3; // X,Y, and BATH
-					io.readline(x,"LadderLeg=");
+					x<=io["programSpecific"]["DMRGPP"]["Geometry"]["LadderLeg"];//ADDED LINE FOR JSON FOMAT
+					//io.readline(x,"LadderLeg=");
 					if (x!=2) throw std::runtime_error("LadderLeg!=2 is not implememnted yet (sorry)\n");
-					io.readline(tmp,"BathSitesPerSite=");
+					tmp<=io["programSpecific"]["DMRGPP"]["Geometry"]["BathSitesPerSite"];//ADDED LINE FOR JSON FOMAT
+					//io.readline(tmp,"BathSitesPerSite=");
 					if (tmp<0) throw std::runtime_error("BathSitesPerSite<0 is an error\n");
 					ladderbath_ = new LadderBath(linSize,x,tmp);
 					break;

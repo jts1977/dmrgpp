@@ -91,9 +91,10 @@ namespace Dmrg {
 		template<typename IoInputType>
 		ParametersModelHubbard(IoInputType& io) 
 		{
-	
-			io.read(hubbardU,"hubbardU");
-			io.read(potentialV,"potentialV");
+			hubbardU <= io["programSpecific"]["DMRGPP"]["Model"]["hubbardU"];
+			//io.read(hubbardU,"hubbardU");
+			potentialV <= io["programSpecific"]["DMRGPP"]["Model"]["potentialV"];
+			//io.read(potentialV,"potentialV");
 			//io.readline(density,"density=");
 		}
 		

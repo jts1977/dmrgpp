@@ -107,9 +107,10 @@ namespace Dmrg {
 		DynamicDmrgParams(IoInputter& io,const ModelType& model)
 		: TargetParamsCommonType(io,model)
 		  {
-			io.rewind();
+			//io.rewind();
 			this->concatenation = SUM;
-			io.readline(type,"DynamicDmrgType=");
+			//io.readline(type,"DynamicDmrgType=");
+			type <= io["programSpecific"]["DMRGPP"]["Dynamic"]["DynamicDmrgType="];//LINE NEEDS MORE WORK
 		  }
 		size_t type;
 

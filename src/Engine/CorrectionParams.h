@@ -93,8 +93,9 @@ namespace Dmrg {
 		template<typename IoInputter>
 		CorrectionParams(IoInputter& io,const ModelType& model)
 		{
-			io.rewind();
-			io.readline(a,"CorrectionA=");
+			// io.rewind();
+			a <= io["programSpecific"]["DMRGPP"]["Dynamic"]["CorrectionA="]; //LINE ADDED FOR JSON FORMAT 
+			// io.readline(a,"CorrectionA=");
 			typename ModelType::HilbertBasisType basis;
 			model.setNaturalBasis(basis,1);
 			model.findElectrons(electrons,basis);

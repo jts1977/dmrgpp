@@ -107,10 +107,11 @@ namespace Dmrg {
 		AdaptiveDynamicParams(IoInputter& io,const ModelType& model)
 		: TargetParamsCommonType(io,model)
 		  {
-			io.rewind();
+			
+			//io.rewind();
 			this->concatenation = SUM;
-			io.readline(type,"DynamicDmrgType=");
-			io.readline(advanceEach,"DynamicDmrgAdvanceEach=");
+			type <= io["programSpecific"]["DMRGPP"]["Dynamic"]["DynamicDmrgType"];//THIS LINE NEEDS MORE WORK ADDED FOR JSON FORMAT
+			advanceEach <= io["programSpecific"]["DMRGPP"]["Dynamic"]["DynamicDmrgAdvanceEach"];//THIS LINE NEEDS MORE WORK ADDED FOR JSON FORMAT
 		  }
 		size_t type;
 		size_t advanceEach;
