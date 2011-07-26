@@ -101,15 +101,13 @@ namespace Dmrg {
 				size_t n = getVectorSize(options);
 				//std::cerr<<"vectorsize="<<n<<"\n";
 				if (edof==1) {
-					dataNumbers_<=io["programSpecific"]["DMRGPP"]["Geometry"]["Connectors"];//ADDED JSON FORMAT
-					//io.read(dataNumbers_,"Connectors");
+					dataNumbers_ <= io["programSpecific"]["DMRGPP"]["Geometry"]["Connectors"];//ADDED JSON FORMAT 
 					dataType_ = NUMBERS;
 					if (dataNumbers_.size()!=n)
 						throw std::runtime_error("GeometryDirection Numbers\n");
 				} else {
 					for (size_t i=0;i<n;i++) {
 						MatrixType m;
-						//io.readMatrix(m,"Connectors");
 						dca::operator<=(m,io["programSpecific"]["DMRGPP"]["Geometry"]["Connectors"]);//THE MATRIX 
 						if (m.n_row()!=edof || m.n_col()!=edof)
 							throw std::runtime_error("GeometryDirection\n");

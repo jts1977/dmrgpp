@@ -104,9 +104,7 @@ namespace Dmrg {
 				  model_(model)
 			{
 				sites <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPSites"];//LINE ADDED FOR JSON FORMAT
-				//io.read(sites,"TSPSites");
 				startingLoops <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPLoops"];//LINE ADDED FOR JSON FORMAT
-				//io.read(startingLoops,"TSPLoops");
 			
 				data_.resize(sites.size());
 				aOperators.resize(sites.size());
@@ -117,31 +115,24 @@ namespace Dmrg {
 				for (size_t i=0;i<sites.size();i++) {
 					std::string s;
 					s <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPOperator"];//LINE ADDED FOR JSON FORMAT
-					//io.readline(s,"TSPOperator=");
 					if (s == "cooked") {
 						s <= io["programSpecific"]["DMRGPP"]["Dynamic"]["COOKED_OPERATOR"];//LINE ADDED FOR JSON FORMAT
-						//io.readline(s,"COOKED_OPERATOR=");
 						std::vector<size_t> v;
 						v <= io["programSpecific"]["DMRGPP"]["Dynamic"]["COOKED_EXTRA"];//LINE ADDED FOR JSON FORMAT
-						//io.read(v,"COOKED_EXTRA");
 						setCookedData(i,s,v);
 					} else {
 						PsimagLite::Matrix<ComplexOrReal> m;
 						dca::operator<=(m , io["programSpecific"]["DMRGPP"]["Dynamic"]["RAW_MATRIX"]);//LINE ADDED FOR JSON FORMAT
-						//io.readMatrix(m,"RAW_MATRIX");
 						setRawData(i,m);
 					}
 					int fermiSign=0;
 					fermiSign <= io["programSpecific"]["DMRGPP"]["Dynamic"]["FermionSign"];//LINE ADDED FOR JSON FORMAT
-					//io.readline(fermiSign,"FERMIONSIGN=");
 					std::pair<size_t,size_t> jmValues;
 					std::vector<size_t> v(2);
 					v <= io["programSpecific"]["DMRGPP"]["Dynamic"]["JMVALUES"];//LINE ADDED FOR JSON FORMAT
-					//io.readKnownSize(v,"JMVALUES");
 					jmValues.first = v[0]; jmValues.second = v[1];
 					RealType angularFactor = 0;
 					angularFactor <= io["programSpecific"]["DMRGPP"]["Dynamic"]["AngularFactor"];//LINE ADDED FOR JSON FORMAT
-					//io.readline(angularFactor,"AngularFactor=");
 					//tsp.set(i,fermiSign,jmValues,angularFactor);     //Need work
 					SparseMatrixType data(data_[i]);
 	

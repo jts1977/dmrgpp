@@ -109,8 +109,8 @@ namespace Dmrg {
 		  {
 			//io.rewind();
 			this->concatenation = SUM;
-			//io.readline(type,"DynamicDmrgType=");
-			type <= io["programSpecific"]["DMRGPP"]["Dynamic"]["DynamicDmrgType="];//LINE NEEDS MORE WORK
+			
+			type <= io["programSpecific"]["DMRGPP"]["Dynamic"]["DynamicDmrgType"];//LINE ADDED FOR JSON FORMAT
 		  }
 		size_t type;
 

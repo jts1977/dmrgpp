@@ -92,10 +92,8 @@ namespace Dmrg {
 		template<typename IoInputType>
 		ParametersModelFeAs(IoInputType& io) 
 		{
-			hubbardU <= io["programSpecific"]["DMRG"]["Model"]["hubbardU"];//LINE ADDED FOR JSON INPUT 
-			//io.read(hubbardU,"hubbardU");
-			potentialV <=io ["programSpecific"]["DMRG"]["Model"["potentialV"];//LINE ADDED FOR JSON INPUT
-			//io.read(potentialV,"potentialV");
+			hubbardU <= io["programSpecific"]["DMRGPP"]["Model"]["hubbardU"];//LINE ADDED FOR JSON INPUT 
+			potentialV <=io ["programSpecific"]["DMRGPP"]["Model"["potentialV"];//LINE ADDED FOR JSON INPUT
 			//io.readline(density,"density=");
 		}
 		

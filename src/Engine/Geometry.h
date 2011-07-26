@@ -96,13 +96,11 @@ namespace Dmrg {
 			{
 				int x;
 				x<=io["programSpecific"]["DMRGPP"]["Geometry"]["TotalNumberOfSites"];//ADDED JSON FORMAT
-				//io.readline(x,"TotalNumberOfSites=");
+				
 				if (x<0) throw std::runtime_error("TotalNumberOfSites<0 is an error\n");
-				//std::cerr<<"TotalNumberOfSites "<<x<<"\n";
 				linSize_ = x;
 				x<=io["programSpecific"]["DMRGPP"]["Geometry"]["NumberOfTerms"]; //ADDED JSON FORMAT
-				//io.readline(x,"NumberOfTerms=");
-				//std::cerr<<"NumberOfTerms "<<x<<"\n";
+				
 				if (x<0) throw std::runtime_error("NumberOfTerms<0 is an error\n");
 
 				for (size_t i=0;i<size_t(x);i++) {

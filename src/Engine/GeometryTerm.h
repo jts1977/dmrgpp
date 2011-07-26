@@ -100,19 +100,13 @@ namespace Dmrg {
 			{
 				int x;
 				x<=io["programSpecific"]["DMRGPP"]["Geometry"]["DegreesOfFreedom"];//ADDED JSON FORMAT
-				//io.readline(x,"DegreesOfFreedom=");
 				if (x<=0) throw std::runtime_error("DegreesOfFreedom<=0 is an error\n");
-				//std::cerr<<"DegreesOfFreedom "<<x<<"\n";
 				edof_ = x;
 				std::string s;
 				s<=io["programSpecific"]["DMRGPP"]["Geometry"]["GeometryKind"];//ADDED JSON FORMAT
-				//io.readline(s,"GeometryKind=");
-				//std::cerr<<"GeometryKind "<<s<<"\n";
 
 				std::string gOptions;
 				gOptions<=io["programSpecific"]["DMRGPP"]["Geometry"]["GeometryOptions"];//ADDED JSON FORMAT
-				//io.readline(gOptions,"GeometryOptions=");
-				//std::cerr<<"GeometryOptions "<<gOptions<<"\n";
 
 				geometryFactory_.init(io,s,linSize);
 
