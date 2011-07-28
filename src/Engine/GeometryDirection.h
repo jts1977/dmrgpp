@@ -81,7 +81,7 @@ DISCLOSED WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS.
 #ifndef GEOMETRY_DIR_H
 #define GEOMETRY_DIR_H
 
-#include "JsonReader.h"
+#include "IoBridge.h"
 
 namespace Dmrg {
 	
@@ -110,7 +110,7 @@ namespace Dmrg {
 				} else {
 					for (size_t i=0;i<n;i++) {
 						MatrixType m;
-						dca::operator <= (m,io.searchFor("Connectors"));
+						m <= io.searchFor("Connectors");
 						//dca::operator<=(m,io["programSpecific"]["DMRGPP"]["Geometry"]["Connectors"]);//THE MATRIX 
 						if (m.n_row()!=edof || m.n_col()!=edof)
 							throw std::runtime_error("GeometryDirection\n");

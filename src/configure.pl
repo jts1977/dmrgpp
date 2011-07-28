@@ -245,13 +245,11 @@ print FOUT<<EOF;
 /* DO NOT EDIT!!! Changes will be lost. Modify configure.pl instead
  * This driver program was written by configure.pl
  * DMRG++ ($brand) by G.A.*/
-#include "JsonReader.h"
-#include "DefaultContext.h"
 #include "CrsMatrix.h"
 #include "LanczosSolver.h"
 #include "BlockMatrix.h"
 #include "DmrgSolver.h"
-//#include "IoSimple.h"
+#include "IoBridge.h"
 #include "Operator.h"
 #include "$concurrencyName.h"
 #include "$modelName.h"
@@ -287,7 +285,6 @@ typedef double Field;
 typedef PsimagLite::$concurrencyName<MatrixElementType> MyConcurrency;
 typedef $parametersName<MatrixElementType> ParametersModelType;
 typedef Geometry<MatrixElementType> GeometryType;;
-typedef  PsimagLite::IoSimple MyIo;
 
 template<
 	typename ParametersModelType,
@@ -322,7 +319,7 @@ void mainLoop(ParametersModelType& mp,GeometryType& geometry,ParametersSolverTyp
 			InternalProductTemplate,
 			ModelHelperTemplate,
 			ModelType,
-			MyIo,
+			PsimagLite::IoSimple,
 			TargettingTemplate,
 			VectorWithOffsetTemplate
 		> SolverType;
@@ -347,10 +344,7 @@ int main(int argc,char *argv[])
 	//! setup distributed parallelization
 	MyConcurrency concurrency(argc,argv);
 	
-	//Setup the Geometry
-	typedef dca::JsonReader IoInputType;
-	//typedef PsimagLite::IoSimple::In IoInputType;
-	IoInputType io(argv[1]);
+	IoBridge io(argv[1]);
 	GeometryType geometry(io);
 
 	//! Read the parameters for this run
@@ -370,6 +364,7 @@ int main(int argc,char *argv[])
 	if (dmrgSolverParams.options.find("CorrectionTargetting")!=std::string::npos) targetting="CorrectionTargetting";
 	if (targetting!="GroundStateTargetting" && su2) throw std::runtime_error("SU(2)"
  		" supports only GroundStateTargetting for now (sorry!)\\n");
+	typedef Dmrg::IoBridge IoInputType;
 	if (su2) {
 		if (dmrgSolverParams.targetQuantumNumbers[2]>0) { 
 			mainLoop<ParametersModelType,GeometryType,ParametersDmrgSolver<MatrixElementType>,MyConcurrency,
@@ -470,11 +465,9 @@ print OBSOUT<<EOF;
 /* DO NOT EDIT!!! Changes will be lost. Modify configure.pl instead
  * This driver program was written by configure.pl
  * DMRG++ ($brand) by G.A.*/
-#include "JsonReader.h"
-#include "DefaultContext.h"	
 #include "Observer.h"
 #include "ObservableLibrary.h"
-//#include "IoSimple.h"
+#include "IoBridge.h"
 #include "$modelName.h" 
 #include "$operatorsName.h" 
 #include "$concurrencyName.h" 
@@ -505,12 +498,11 @@ typedef  PsimagLite::CrsMatrix<ComplexType> MySparseMatrixComplex;
 typedef  PsimagLite::CrsMatrix<RealType> MySparseMatrixReal;
 
 typedef PsimagLite::$concurrencyName<RealType> MyConcurrency;
-typedef PsimagLite::IoSimple::In IoInputType;
 
 template<typename ConcurrencyType,typename VectorWithOffsetType,typename ModelType,typename SparseMatrixType,
 typename OperatorType,typename TargettingType,typename GeometryType>
 bool observeOneFullSweep(
-	IoInputType& io,
+	Dmrg::IoBridge& io,
 	const GeometryType& geometry,
 	const ModelType& model,
 	const std::string& obsOptions,
@@ -519,7 +511,7 @@ bool observeOneFullSweep(
 {
 	bool verbose = false;
 	typedef typename SparseMatrixType::value_type FieldType;
-	typedef Observer<FieldType,VectorWithOffsetType,ModelType,IoInputType> 
+	typedef Observer<FieldType,VectorWithOffsetType,ModelType,PsimagLite::IoSimple> 
 		ObserverType;
 	typedef ObservableLibrary<ObserverType,TargettingType> ObservableLibraryType;
 	size_t n  = geometry.numberOfSites();
@@ -684,7 +676,7 @@ int main(int argc,char *argv[])
 	
 	//Setup the Geometry
 	typedef Geometry<RealType> GeometryType;
-	IoInputType io(argv[1]);
+	IoBridge io(argv[1]);
 	GeometryType geometry(io);
 
 	//! Read the parameters for this run
@@ -701,7 +693,8 @@ int main(int argc,char *argv[])
 	if (dmrgSolverParams.options.find("CorrectionTargetting")!=std::string::npos) targetting="CorrectionTargetting";
 	if (targetting!="GroundStateTargetting" && su2) throw std::runtime_error("SU(2)"
  		" supports only GroundStateTargetting for now (sorry!)\\n");
-	
+	typedef PsimagLite::IoSimple IoInputType;
+
 	if (su2) {
 		if (dmrgSolverParams.targetQuantumNumbers[2]>0) { 
 			mainLoop<ParametersModelType,GeometryType,MyConcurrency,IoInputType,$modelName,

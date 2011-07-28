@@ -205,23 +205,9 @@ namespace Dmrg {
 			//filename <= io["programSpecific"]["DMRGPP"]["Solver"]["OutputFile"];//ADDED LINE FOR JSON FOMAT
 			keptStatesInfinite <= io.searchFor("InfiniteLoopKeptStates");
 			//keptStatesInfinite <= io["programSpecific"]["DMRGPP"]["Solver"]["InfiniteLoopKeptStates"]; 
-			std::vector<int> tmpVec;
-			tmpVec <= io.searchFor("FiniteLoops");
-			//tmpVec <= io["programSpecific"]["DMRGPP"]["Solver"]["FiniteLoops"];//ADDED LINE FOR JSON FOMAT
-			size_t i = 0;
-			size_t j = 0;
-			if (tmpVec.size() == 0 && tmpVec.size()%3 !=0) throw std::runtime_error("Error reading Finite Loops\n");
-			size_t numberOfFiniteLoops = tmpVec.size()/3;
-			finiteLoop.resize(numberOfFiniteLoops);
-			
-			while (i<tmpVec.size()) {
-				finiteLoop[j].stepLength = tmpVec[i++];
-				finiteLoop[j].keptStates = tmpVec[i++];
-				finiteLoop[j].saveOption = tmpVec[i++];
-				j++;
-			}
+
 			//io.readline(keptStatesInfinite,"InfiniteLoopKeptStates=");
-			//finiteLoop <= io["programSpecific"]["DCA"]["Solver"]["FiniteLoops"];//ADDED LINE FOR JSON FOMAT
+			finiteLoop <=  io.searchFor("FiniteLoops");
 			//io.read(finiteLoop,"FiniteLoops");
 			if (options.find("hasQuantumNumbers")!=std::string::npos)
 				targetQuantumNumbers <= io.searchFor("TargetQuantumNumbers");

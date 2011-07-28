@@ -127,7 +127,7 @@ namespace Dmrg {
 						setCookedData(i,s,v);
 					} else {
 						PsimagLite::Matrix<ComplexOrReal> m;
-						dca::operator <= (m , io.searchFor("RAW_MATRIX"));
+						m <= io.searchFor("RAW_MATRIX");
 						//dca::operator<=(m , io["programSpecific"]["DMRGPP"]["Dynamic"]["RAW_MATRIX"]);//LINE ADDED FOR JSON FORMAT
 						setRawData(i,m);
 					}
