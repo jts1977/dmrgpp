@@ -197,15 +197,23 @@ namespace Dmrg {
 		template<typename IoInputType>
 		ParametersDmrgSolver(IoInputType& io) 
 		{
-			options <= io["programSpecific"]["DMRGPP"]["Solver"]["SolverOptions"];//ADDED LINE FOR JSON FOMAT 
-			version <= io["programSpecific"]["DMRGPP"]["Solver"]["Version"];//ADDED LINE FOR JSON FOMAT
-			filename <= io["programSpecific"]["DMRGPP"]["Solver"]["OutputFile"];//ADDED LINE FOR JSON FOMAT
-			keptStatesInfinite <= io["programSpecific"]["DMRGPP"]["Solver"]["InfiniteLoopKeptStates"]; 
+			options <= io.searchFor("SolverOptions");
+			//options <= io["programSpecific"]["DMRGPP"]["Solver"]["SolverOptions"];//ADDED LINE FOR JSON FOMAT 
+			version <= io.searchFor("Version");
+			//version <= io["programSpecific"]["DMRGPP"]["Solver"]["Version"];//ADDED LINE FOR JSON FOMAT
+			filename <= io.searchFor("OutputFile");
+			//filename <= io["programSpecific"]["DMRGPP"]["Solver"]["OutputFile"];//ADDED LINE FOR JSON FOMAT
+			keptStatesInfinite <= io.searchFor("InfiniteLoopKeptStates");
+			//keptStatesInfinite <= io["programSpecific"]["DMRGPP"]["Solver"]["InfiniteLoopKeptStates"]; 
 			std::vector<int> tmpVec;
-			tmpVec <= io["programSpecific"]["DMRGPP"]["Solver"]["FiniteLoops"];//ADDED LINE FOR JSON FOMAT
+			tmpVec <= io.searchFor("FiniteLoops");
+			//tmpVec <= io["programSpecific"]["DMRGPP"]["Solver"]["FiniteLoops"];//ADDED LINE FOR JSON FOMAT
 			size_t i = 0;
 			size_t j = 0;
 			if (tmpVec.size() == 0 && tmpVec.size()%3 !=0) throw std::runtime_error("Error reading Finite Loops\n");
+			size_t numberOfFiniteLoops = tmpVec.size()/3;
+			finiteLoop.resize(numberOfFiniteLoops);
+			
 			while (i<tmpVec.size()) {
 				finiteLoop[j].stepLength = tmpVec[i++];
 				finiteLoop[j].keptStates = tmpVec[i++];
@@ -216,12 +224,15 @@ namespace Dmrg {
 			//finiteLoop <= io["programSpecific"]["DCA"]["Solver"]["FiniteLoops"];//ADDED LINE FOR JSON FOMAT
 			//io.read(finiteLoop,"FiniteLoops");
 			if (options.find("hasQuantumNumbers")!=std::string::npos)
-				targetQuantumNumbers <= io["programSpecific"]["DMRGPP"]["Solver"]["TargetQuantumNumbers"];//ADDED LINE FOR JSON FOMAT
+				targetQuantumNumbers <= io.searchFor("TargetQuantumNumbers");
+				//targetQuantumNumbers <= io["programSpecific"]["DMRGPP"]["Solver"]["TargetQuantumNumbers"];//ADDED LINE FOR JSON FOMAT
 			if (options.find("checkpoint")!=std::string::npos)
-				checkpoint.filename <= io["programSpecific"]["DMRGPP"]["Solver"]["CheckpointFilename"];//ADDED LINE FOR JSON FOMAT
+				checkpoint.filename <= io.searchFor("CheckpointFilename");
+				//checkpoint.filename <= io["programSpecific"]["DMRGPP"]["Solver"]["CheckpointFilename"];//ADDED LINE FOR JSON FOMAT
 			nthreads=1; // provide a default value
 			if (options.find("hasThreads")!=std::string::npos)
-				nthreads <= io["programSpecific"]["DMRGPP"]["Solver"]["Threads"];//ADDED LINE FOR JSON FOMAT
+				nthreads<= io.searchFor("Threads");
+				//nthreads <= io["programSpecific"]["DMRGPP"]["Solver"]["Threads"];//ADDED LINE FOR JSON FOMAT
 			
 		} 
 

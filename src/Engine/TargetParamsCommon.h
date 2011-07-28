@@ -103,8 +103,10 @@ namespace Dmrg {
 				: sites(0),startingLoops(0),concatenation(PRODUCT),
 				  model_(model)
 			{
-				sites <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPSites"];//LINE ADDED FOR JSON FORMAT
-				startingLoops <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPLoops"];//LINE ADDED FOR JSON FORMAT
+				sites <= io.searchFor("TSPSites");
+				//sites <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPSites"];//LINE ADDED FOR JSON FORMAT
+				startingLoops <= io.searchFor("TSPLops");
+				//startingLoops <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPLoops"];//LINE ADDED FOR JSON FORMAT
 			
 				data_.resize(sites.size());
 				aOperators.resize(sites.size());
@@ -114,25 +116,32 @@ namespace Dmrg {
 			
 				for (size_t i=0;i<sites.size();i++) {
 					std::string s;
-					s <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPOperator"];//LINE ADDED FOR JSON FORMAT
+					s <= io.searchFor("TSPOperator");
+					//s <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPOperator"];//LINE ADDED FOR JSON FORMAT
 					if (s == "cooked") {
-						s <= io["programSpecific"]["DMRGPP"]["Dynamic"]["COOKED_OPERATOR"];//LINE ADDED FOR JSON FORMAT
+						s <= io.searchFor("COOKED_OPERATOR");
+						//s <= io["programSpecific"]["DMRGPP"]["Dynamic"]["COOKED_OPERATOR"];//LINE ADDED FOR JSON FORMAT
 						std::vector<size_t> v;
-						v <= io["programSpecific"]["DMRGPP"]["Dynamic"]["COOKED_EXTRA"];//LINE ADDED FOR JSON FORMAT
+						v <= io.searchFor("COOKED_EXTRA");
+						//v <= io["programSpecific"]["DMRGPP"]["Dynamic"]["COOKED_EXTRA"];//LINE ADDED FOR JSON FORMAT
 						setCookedData(i,s,v);
 					} else {
 						PsimagLite::Matrix<ComplexOrReal> m;
-						dca::operator<=(m , io["programSpecific"]["DMRGPP"]["Dynamic"]["RAW_MATRIX"]);//LINE ADDED FOR JSON FORMAT
+						dca::operator <= (m , io.searchFor("RAW_MATRIX"));
+						//dca::operator<=(m , io["programSpecific"]["DMRGPP"]["Dynamic"]["RAW_MATRIX"]);//LINE ADDED FOR JSON FORMAT
 						setRawData(i,m);
 					}
 					int fermiSign=0;
-					fermiSign <= io["programSpecific"]["DMRGPP"]["Dynamic"]["FermionSign"];//LINE ADDED FOR JSON FORMAT
+					fermiSign <= io.searchFor("FermionSign");
+					//fermiSign <= io["programSpecific"]["DMRGPP"]["Dynamic"]["FermionSign"];//LINE ADDED FOR JSON FORMAT
 					std::pair<size_t,size_t> jmValues;
 					std::vector<size_t> v(2);
-					v <= io["programSpecific"]["DMRGPP"]["Dynamic"]["JMVALUES"];//LINE ADDED FOR JSON FORMAT
+					v <= io.searchFor("JMVALUES");
+					//v <= io["programSpecific"]["DMRGPP"]["Dynamic"]["JMVALUES"];//LINE ADDED FOR JSON FORMAT
 					jmValues.first = v[0]; jmValues.second = v[1];
 					RealType angularFactor = 0;
-					angularFactor <= io["programSpecific"]["DMRGPP"]["Dynamic"]["AngularFactor"];//LINE ADDED FOR JSON FORMAT
+					angularFactor <= io.searchFor("AngularFactor");
+					//angularFactor <= io["programSpecific"]["DMRGPP"]["Dynamic"]["AngularFactor"];//LINE ADDED FOR JSON FORMAT
 					//tsp.set(i,fermiSign,jmValues,angularFactor);     //Need work
 					SparseMatrixType data(data_[i]);
 	

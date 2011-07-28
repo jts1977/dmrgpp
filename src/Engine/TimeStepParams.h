@@ -102,9 +102,12 @@ namespace Dmrg {
 			{
 				//io.rewind();
 				this->concatenation = PRODUCT;
-				tau <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPTau"]; //LINE ADDED FOR JSON FORMAT NEEDS WORK 
-				timeSteps <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPTimeSteps"]; //LINE ADDED FOR JSON FORMAT NEEDS WORK
-				advanceEach <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPAdvanceEach"]; //LINE ADDED FOR JSON FORMAT NEEDS WORK
+				tau <= io.searchFor("TSPTau");
+				//tau <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPTau"]; //LINE ADDED FOR JSON FORMAT NEEDS WORK 
+				timeSteps <= io.searchFor("TSPTimeSteps");
+				//timeSteps <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPTimeSteps"]; //LINE ADDED FOR JSON FORMAT NEEDS WORK
+				advanceEach <= io.searchFor("TSPAdvanceEach");
+				//advanceEach <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPAdvanceEach"]; //LINE ADDED FOR JSON FORMAT NEEDS WORK
 			}
 			
 			RealType tau;

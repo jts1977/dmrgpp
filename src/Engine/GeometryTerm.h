@@ -99,14 +99,17 @@ namespace Dmrg {
 				linSize_(linSize)
 			{
 				int x;
-				x<=io["programSpecific"]["DMRGPP"]["Geometry"]["DegreesOfFreedom"];//ADDED JSON FORMAT
+				x <= io.searchFor("DegreesOfFreedom");
+				//x<=io["programSpecific"]["DMRGPP"]["Geometry"]["DegreesOfFreedom"];//ADDED JSON FORMAT
 				if (x<=0) throw std::runtime_error("DegreesOfFreedom<=0 is an error\n");
 				edof_ = x;
 				std::string s;
-				s<=io["programSpecific"]["DMRGPP"]["Geometry"]["GeometryKind"];//ADDED JSON FORMAT
+				s <= io.searchFor("GeometryKind");
+				//s<=io["programSpecific"]["DMRGPP"]["Geometry"]["GeometryKind"];//ADDED JSON FORMAT
 
 				std::string gOptions;
-				gOptions<=io["programSpecific"]["DMRGPP"]["Geometry"]["GeometryOptions"];//ADDED JSON FORMAT
+				gOptions <= io.searchFor("GeometryOptions");
+				//gOptions<=io["programSpecific"]["DMRGPP"]["Geometry"]["GeometryOptions"];//ADDED JSON FORMAT
 
 				geometryFactory_.init(io,s,linSize);
 

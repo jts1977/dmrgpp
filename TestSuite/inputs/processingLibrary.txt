@@ -1,5 +1,5 @@
 [dmrg]
-Let $input = $inputsDir input$testNum.inp
+Let $input = $inputsDir input$testNum.jsn
 Let $raw = $resultsDir stderrAndOut$testNum.txt
 Execute runDmrg($input,$raw)
 
@@ -13,7 +13,7 @@ Grep Energy $output > $result
 Diff $result $oracle > $diff
 
 [observables]
-Let $input = $inputsDir input$testNum.inp
+Let $input = $inputsDir input$testNum.jsn
 Let $raw = $srcDir raw$testNum.txt
 Let $options = ccnnszsz
 Execute runObserve($input, $raw,$options)
@@ -73,7 +73,7 @@ Grep '|A|' $stdoutAndStdErr > $result
 Diff $result $oracle > $diff
 
 [PostProcessingTimeEvolution]
-Let $input = $inputsDir input$testNum.inp
+Let $input = $inputsDir input$testNum.jsn
 Let $result = $srcDir rawOutput$testNum.txt
 Let $oracle = $oraclesDir postProcessingTimeEvolution$testNum.txt
 Let $diff = $resultsDir rawOutput$testNum.diff
@@ -83,7 +83,7 @@ Execute runObserve($input, $result,$options)
 Diff $result $oracle > $diff
 
 [RawOutput]
-Let $input = $inputsDir input$testNum.inp
+Let $input = $inputsDir input$testNum.jsn
 Let $result = $srcDir rawOutput$testNum.txt
 Let $oracle = $oraclesDir rawOutput$testNum.txt
 Let $diff = $resultsDir rawOutput$testNum.diff

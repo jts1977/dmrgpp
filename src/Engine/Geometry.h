@@ -95,11 +95,13 @@ namespace Dmrg {
 			Geometry(IoInputter& io,bool debug=false)
 			{
 				int x;
-				x<=io["programSpecific"]["DMRGPP"]["Geometry"]["TotalNumberOfSites"];//ADDED JSON FORMAT
+				x <= io.searchFor("TotalNumberOfSites");
+				//x<=io["programSpecific"]["DMRGPP"]["Geometry"]["TotalNumberOfSites"];//ADDED JSON FORMAT
 				
 				if (x<0) throw std::runtime_error("TotalNumberOfSites<0 is an error\n");
 				linSize_ = x;
-				x<=io["programSpecific"]["DMRGPP"]["Geometry"]["NumberOfTerms"]; //ADDED JSON FORMAT
+				x <= io.searchFor("NumberOfTerms");
+				//x<=io["programSpecific"]["DMRGPP"]["Geometry"]["NumberOfTerms"]; //ADDED JSON FORMAT
 				
 				if (x<0) throw std::runtime_error("NumberOfTerms<0 is an error\n");
 
