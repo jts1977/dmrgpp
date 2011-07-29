@@ -502,7 +502,7 @@ typedef PsimagLite::$concurrencyName<RealType> MyConcurrency;
 template<typename ConcurrencyType,typename VectorWithOffsetType,typename ModelType,typename SparseMatrixType,
 typename OperatorType,typename TargettingType,typename GeometryType>
 bool observeOneFullSweep(
-	Dmrg::IoBridge& io,
+	PsimagLite::IoSimple::In& io,
 	const GeometryType& geometry,
 	const ModelType& model,
 	const std::string& obsOptions,
@@ -511,7 +511,7 @@ bool observeOneFullSweep(
 {
 	bool verbose = false;
 	typedef typename SparseMatrixType::value_type FieldType;
-	typedef Observer<FieldType,VectorWithOffsetType,ModelType,PsimagLite::IoSimple> 
+	typedef Observer<FieldType,VectorWithOffsetType,ModelType,PsimagLite::IoSimple::In> 
 		ObserverType;
 	typedef ObservableLibrary<ObserverType,TargettingType> ObservableLibraryType;
 	size_t n  = geometry.numberOfSites();
@@ -639,7 +639,7 @@ void mainLoop(
 	TargettingParamsType tsp(io,model);
 	
 	bool moreData = true;
-	IoInputType dataIo(datafile);
+	PsimagLite::IoSimple::In dataIo(datafile);
 	bool hasTimeEvolution = (targetting == "TimeStepTargetting") ? true : false;
 	while (moreData) {
 		try {
@@ -693,7 +693,7 @@ int main(int argc,char *argv[])
 	if (dmrgSolverParams.options.find("CorrectionTargetting")!=std::string::npos) targetting="CorrectionTargetting";
 	if (targetting!="GroundStateTargetting" && su2) throw std::runtime_error("SU(2)"
  		" supports only GroundStateTargetting for now (sorry!)\\n");
-	typedef PsimagLite::IoSimple IoInputType;
+	typedef IoBridge IoInputType;
 
 	if (su2) {
 		if (dmrgSolverParams.targetQuantumNumbers[2]>0) { 

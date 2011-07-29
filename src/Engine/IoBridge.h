@@ -87,6 +87,7 @@
 #include "Matrix.h"
 #include "JsonParser.h"
 #include "JsonReader.h"
+#include "FiniteLoop.h"
 #include <string>
 
 namespace Dmrg {

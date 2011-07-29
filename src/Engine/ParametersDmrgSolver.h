@@ -85,14 +85,9 @@ DISCLOSED WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS.
 
 #include "TypeToString.h"
 #include "Vector.h"
+#include "FiniteLoop.h"
 
 namespace Dmrg {
-	struct FiniteLoop {
-		int stepLength; // how much to go right (+) or left (-)
-		size_t keptStates; // kept states
-		int saveOption; // to save or not to save	
-	};
-
 	inline void checkFiniteLoops(const std::vector<FiniteLoop>& finiteLoop,size_t totalSites)
 	{
 		std::string s = "checkFiniteLoops: I'm falling out of the lattice ";
