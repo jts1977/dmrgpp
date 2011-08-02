@@ -105,7 +105,7 @@ namespace Dmrg {
 			{
 				sites <= io.searchFor("TSPSites");
 				//sites <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPSites"];//LINE ADDED FOR JSON FORMAT
-				startingLoops <= io.searchFor("TSPLops");
+				startingLoops <= io.searchFor("TSPLoops");
 				//startingLoops <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPLoops"];//LINE ADDED FOR JSON FORMAT
 			
 				data_.resize(sites.size());
@@ -132,13 +132,11 @@ namespace Dmrg {
 						setRawData(i,m);
 					}
 					int fermiSign=0;
-					fermiSign <= io.searchFor("FermionSign");
+					fermiSign <= io.searchFor("FERMIONSIGN");
 					//fermiSign <= io["programSpecific"]["DMRGPP"]["Dynamic"]["FermionSign"];//LINE ADDED FOR JSON FORMAT
 					std::pair<size_t,size_t> jmValues;
-					std::vector<size_t> v(2);
-					v <= io.searchFor("JMVALUES");
+					jmValues <= io.searchFor("JMVALUES");
 					//v <= io["programSpecific"]["DMRGPP"]["Dynamic"]["JMVALUES"];//LINE ADDED FOR JSON FORMAT
-					jmValues.first = v[0]; jmValues.second = v[1];
 					RealType angularFactor = 0;
 					angularFactor <= io.searchFor("AngularFactor");
 					//angularFactor <= io["programSpecific"]["DMRGPP"]["Dynamic"]["AngularFactor"];//LINE ADDED FOR JSON FORMAT

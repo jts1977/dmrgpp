@@ -117,6 +117,15 @@ namespace Dmrg {
 			savedString_ = str;
 			return *this;
 		}
+
+		void load(std::pair<size_t,size_t>& x) const
+		{
+			std::vector<size_t> v(2);
+
+			oldIo_->readKnownSize(v,savedString_);
+			x.first = v[0];
+			x.second = v[1];
+		}
 		
 		void load(int& x) const
 		{
@@ -149,20 +158,23 @@ namespace Dmrg {
 		{
 			oldIo_->read(x,savedString_);
 		}
-		
-// 		void load(FiniteLoop& x) const
-// 		{
-// 			if (savedString_ != "FiniteLoops") 
-// 			  throw std::runtime_error(
-// 			    "operator<= something wrong while reading finite loops with simple reader\n");
-// 			  oldIo_->read(x,"FiniteLoops");
-// 		}
+	
+		void rewind()
+		{
+			if (type_==PLAIN) oldIo_->rewind();
+		}	
 		
 		template<typename SomeType2>
 		friend SomeType2& operator<=(SomeType2& lhs,const IoBridge& rhs);
 		
 		friend std::vector<FiniteLoop>& operator<=(std::vector<FiniteLoop>& lhs,const IoBridge& rhs);
+
+		template<typename SomeType2>
+		friend std::pair<SomeType2,SomeType2>& operator<=(std::pair<SomeType2,SomeType2>& lhs,const IoBridge& rhs);
 		
+		template<typename SomeType2>
+		friend PsimagLite::Matrix<SomeType2>& operator<=(PsimagLite::Matrix<SomeType2>& lhs,const IoBridge& rhs);
+
 	private:
 		size_t type_;
 		std::string equalSign_;
@@ -170,13 +182,16 @@ namespace Dmrg {
 		OldIoType* oldIo_;
 		JsonIoType* jsonIo_;
 	}; // class IoBridge
-	
+
 	template<typename SomeType>
-	const dca::JsonReader::JsonAccessor& operator<=(PsimagLite::Matrix<SomeType>& lhs,const dca::JsonReader::JsonAccessor& acc)
+	PsimagLite::Matrix<SomeType>& operator<=(PsimagLite::Matrix<SomeType>& lhs,const IoBridge& rhs)
 	{
-		throw std::runtime_error("Matrix reading in json needs more work\n");
-		return acc;
-		//return dca::operator<=(lhs, acc);
+		if (rhs.type_==IoBridge::PLAIN) {
+			rhs.load(lhs);
+			return lhs;
+		}
+		dca::operator<=(lhs, rhs.jsonIo_->searchFor(rhs.savedString_));
+		return lhs;
 	}
 	
 	template<typename SomeType>
@@ -189,7 +204,6 @@ namespace Dmrg {
 		operator<=(lhs, rhs.jsonIo_->searchFor(rhs.savedString_));
 		return lhs;
 	}
-	
 	
 	std::vector<FiniteLoop>& operator<=(std::vector<FiniteLoop>& lhs,const IoBridge& rhs)
 	{
@@ -214,6 +228,21 @@ namespace Dmrg {
 			lhs[j].saveOption = tmpVec[i++];
 			j++;
 		}
+		return lhs;
+	}
+
+	template<typename T>
+	std::pair<T,T>& operator<=(std::pair<T,T>& lhs,const IoBridge& rhs)
+	{
+		if (rhs.type_==IoBridge::PLAIN) {
+			rhs.load(lhs);
+			return lhs;
+		}
+		std::vector<T> v;
+		v <= rhs.jsonIo_->searchFor(rhs.savedString_);
+		if (v.size()!=2) throw std::runtime_error("IoBridge: failed reading std::pair\n");
+		lhs.first = v[0];
+		lhs.second = v[1];
 		return lhs;
 	}
 	

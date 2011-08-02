@@ -100,7 +100,7 @@ namespace Dmrg {
 				: TargetParamsCommonType(io,model),tau(0),timeSteps(0),
 				  advanceEach(0)
 			{
-				//io.rewind();
+				io.rewind();
 				this->concatenation = PRODUCT;
 				tau <= io.searchFor("TSPTau");
 				//tau <= io["programSpecific"]["DMRGPP"]["Dynamic"]["TSPTau"]; //LINE ADDED FOR JSON FORMAT NEEDS WORK 

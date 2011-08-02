@@ -55,7 +55,33 @@ sub readKeyValue
 			$keyValue{$1}=$2 unless (/^density/);
 			next;	
 		}
-		
+	
+		if (/^JMVALUES/) {
+			my @jmvalues = split;
+			die "JMVALUES needs exactly 2 values\n" if ($#jmvalues!=2);
+			my @vv = ($jmvalues[1]+0,$jmvalues[2]+0);
+			$keyValue{"JMVALUES"}=\@vv;
+			next;
+		}
+
+		if (/^RAW_MATRIX/) {
+			$_ = <FILE>;
+			die "Problem reading RAWMATRIX\n" if (!defined($_));
+			my @colAndRow = split;
+			my @vv;
+			my $numberOfRows = $colAndRow[0] + 0;
+			for (my $i=0;$i<$numberOfRows;$i++) {
+				$_ = <FILE>;
+				die "Problem reading RAWMATRIX\n" if (!defined($_));
+				my @matrixTemp = split;
+				my @v2;
+				numberize(\@v2,\@matrixTemp);
+				$vv[$i] = \@v2;
+			}
+			$keyValue{"RAW_MATRIX"}=\@vv;
+			next;
+		}
+
 		$buffer = $buffer.$_." ";
 		$buffer =~ s/^[\t \n]+//;
 		my @temp = split/[\t \n]+/,$buffer;
@@ -115,5 +141,18 @@ sub findParent
 		or
 		$key eq "TargetQuantumNumbers" 
 	);
+	return "Pthreads" if (
+		$key eq "Pthreads"
+	);
+	return "Dynamic";
 }
 
+sub numberize
+{
+	my ($dest,$src) = @_;
+	my $n = scalar(@$src);
+	for (my $i=0;$i<$n;$i++) {
+		my @vx = ($src->[$i] + 0,0);
+		$dest->[$i] = \@vx;
+	}
+}

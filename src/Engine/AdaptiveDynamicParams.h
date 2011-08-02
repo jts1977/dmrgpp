@@ -108,7 +108,7 @@ namespace Dmrg {
 		: TargetParamsCommonType(io,model)
 		  {
 			
-			//io.rewind();
+			io.rewind();
 			this->concatenation = SUM;
 			//type <= io["programSpecific"]["DMRGPP"]["Dynamic"]["DynamicDmrgType"];//THIS LINE NEEDS MORE WORK ADDED FOR JSON FORMAT
 			//advanceEach <= io["programSpecific"]["DMRGPP"]["Dynamic"]["DynamicDmrgAdvanceEach"];//THIS LINE NEEDS MORE WORK ADDED FOR JSON FORMAT
