@@ -97,11 +97,13 @@ namespace Dmrg {
 		typedef IoBridge ThisType;
 
 	public:
+
+		enum { DO_NOT_IGNORE,IGNORE_LAST};
 		typedef PsimagLite::IoSimple::In OldIoType;
 		typedef dca::JsonReader JsonIoType;
 		
 		IoBridge(const std::string& filename)
-		: type_(JSON),equalSign_("=")
+		: type_(JSON),equalSign_("="),savedString_("")
 		{
 			if (filename.find(".inp")!=std::string::npos) type_=PLAIN;
 			
@@ -112,9 +114,14 @@ namespace Dmrg {
 			jsonIo_ = new JsonIoType(filename);
 		}
 		
-		const ThisType& searchFor(const std::string& str)
+		const ThisType& searchFor(const std::string& str,size_t ignoreOrNot = DO_NOT_IGNORE)
 		{
 			savedString_ = str;
+			if (type_ == JSON) return *this;
+			if (ignoreOrNot == DO_NOT_IGNORE) return *this;
+			savedString_ = str.substr(0,str.size()-1);
+			std::cerr<<"SAVEDSTRING========="<<savedString_<<" ignoreOrNot="<<ignoreOrNot;
+			std::cerr<<" DO_NOT_IGNORE="<<DO_NOT_IGNORE<<"\n";
 			return *this;
 		}
 

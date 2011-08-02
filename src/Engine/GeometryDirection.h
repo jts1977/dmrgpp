@@ -82,6 +82,7 @@ DISCLOSED WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS.
 #define GEOMETRY_DIR_H
 
 #include "IoBridge.h"
+#include "TypeToString.h" // in PsimagLite
 
 namespace Dmrg {
 	
@@ -100,9 +101,10 @@ namespace Dmrg {
 			{
 				size_t n = getVectorSize(options);
 				//std::cerr<<"vectorsize="<<n<<"\n";
+				std::string label = "Connectors" + ttos(dirId_);
 				if (edof==1) {
 					
-					dataNumbers_ <= io.searchFor("Connectors");
+					dataNumbers_ <= io.searchFor(label,IoInputter::IGNORE_LAST);
 					//dataNumbers_ <= io["programSpecific"]["DMRGPP"]["Geometry"]["Connectors"];//ADDED JSON FORMAT 
 					dataType_ = NUMBERS;
 					if (dataNumbers_.size()!=n)
@@ -110,7 +112,7 @@ namespace Dmrg {
 				} else {
 					for (size_t i=0;i<n;i++) {
 						MatrixType m;
-						m <= io.searchFor("Connectors");
+						m <= io.searchFor(label,IoInputter::IGNORE_LAST);
 						//dca::operator<=(m,io["programSpecific"]["DMRGPP"]["Geometry"]["Connectors"]);//THE MATRIX 
 						if (m.n_row()!=edof || m.n_col()!=edof)
 							throw std::runtime_error("GeometryDirection\n");

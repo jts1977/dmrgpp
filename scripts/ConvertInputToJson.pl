@@ -82,6 +82,10 @@ sub readKeyValue
 			next;
 		}
 
+		s/Connectors[ \t]/Connectors0/;
+		s/ConnectorsX/Connectors0/;
+		s/ConnectorsY/Connectors1/;
+
 		$buffer = $buffer.$_." ";
 		$buffer =~ s/^[\t \n]+//;
 		my @temp = split/[\t \n]+/,$buffer;
