@@ -1,0 +1,96 @@
+{
+   "programSpecific" : {
+      "DMRGPP" : {
+         "Solver" : {
+            "Version" : "264e71039cc5a47c6f1f375f2f9baaffd94e94fa",
+            "InfiniteLoopKeptStates" : 100,
+            "TargetQuantumNumbers" : [
+               0.5,
+               0.5,
+               0
+            ],
+            "OutputFile" : "data0.txt",
+            "SolverOptions" : "hasQuantumNumbers,nowft,useSu2Symmetry,,",
+            "FiniteLoops" : [
+               7,
+               100,
+               0,
+               -7,
+               100,
+               0,
+               -7,
+               100,
+               0,
+               7,
+               100,
+               0
+            ]
+         },
+         "Model" : {
+            "potentialV" : [
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0
+            ],
+            "hubbardU" : [
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1
+            ]
+         },
+         "Geometry" : {
+            "DegreesOfFreedom" : 1,
+            "NumberOfTerms" : 1,
+            "GeometryOptions" : "ConstantValues",
+            "Connectors0" : [
+               1
+            ],
+            "GeometryKind" : "chain",
+            "TotalNumberOfSites" : 16
+         }
+      }
+   }
+}
+

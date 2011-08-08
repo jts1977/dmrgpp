@@ -1,0 +1,184 @@
+{
+   "programSpecific" : {
+      "DMRGPP" : {
+         "Dynamic" : {
+            "TSPTau" : 0.01,
+            "TSPOperator" : "raw",
+            "FERMIONSIGN" : 1,
+            "JMVALUES" : [
+               0,
+               0
+            ],
+            "AngularFactor" : 1,
+            "TSPTimeSteps" : 10,
+            "TSPSites" : [
+               7
+            ],
+            "TSPLoops" : [
+               2
+            ],
+            "TSPAdvanceEach" : 2,
+            "RAW_MATRIX" : [
+               [
+                  [
+                     1,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ]
+               ],
+               [
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     1,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ]
+               ],
+               [
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     1,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ]
+               ],
+               [
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     1,
+                     0
+                  ]
+               ]
+            ]
+         },
+         "Solver" : {
+            "Version" : "6ce41a4b7dfa08978e53fa756f7f139e2fb18251",
+            "TargetQuantumNumbers" : [
+               0.5,
+               0.5
+            ],
+            "InfiniteLoopKeptStates" : 64,
+            "SolverOptions" : "hasQuantumNumbers,wft,nosu2,TimeStepTargetting",
+            "OutputFile" : "data5.txt",
+            "FiniteLoops" : [
+               7,
+               100,
+               0,
+               -7,
+               100,
+               0,
+               -7,
+               100,
+               0
+            ]
+         },
+         "Model" : {
+            "potentialV" : [
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0
+            ],
+            "hubbardU" : [
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1,
+               1
+            ]
+         },
+         "Geometry" : {
+            "DegreesOfFreedom" : 1,
+            "NumberOfTerms" : 1,
+            "GeometryOptions" : "ConstantValues",
+            "Connectors0" : [
+               1
+            ],
+            "GeometryKind" : "chain",
+            "TotalNumberOfSites" : 16
+         }
+      }
+   }
+}
+

@@ -1,0 +1,205 @@
+{
+   "programSpecific" : {
+      "DMRGPP" : {
+         "Dynamic" : {
+            "TSPTau" : 0.1,
+            "TSPOperator" : "raw",
+            "FERMIONSIGN" : -1,
+            "JMVALUES" : [
+               0,
+               0
+            ],
+            "AngularFactor" : 1,
+            "TSPTimeSteps" : 5,
+            "TSPSites" : [
+               10
+            ],
+            "TSPLoops" : [
+               0
+            ],
+            "TSPAdvanceEach" : 4,
+            "RAW_MATRIX" : [
+               [
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ]
+               ],
+               [
+                  [
+                     1,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ]
+               ],
+               [
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ]
+               ],
+               [
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ],
+                  [
+                     1,
+                     0
+                  ],
+                  [
+                     0,
+                     0
+                  ]
+               ]
+            ]
+         },
+         "Solver" : {
+            "Version" : "6ce41a4b7dfa08978e53fa756f7f139e2fb18251",
+            "TargetQuantumNumbers" : [
+               0.5,
+               0.5
+            ],
+            "InfiniteLoopKeptStates" : 200,
+            "SolverOptions" : "hasQuantumNumbers,wft,nosu2,TimeStepTargetting",
+            "OutputFile" : "data9.txt",
+            "FiniteLoops" : [
+               1,
+               200,
+               0,
+               -8,
+               200,
+               0,
+               7,
+               200,
+               1,
+               7,
+               200,
+               1,
+               -7,
+               200,
+               1,
+               -7,
+               200,
+               1,
+               7,
+               200,
+               1,
+               7,
+               200,
+               1,
+               -7,
+               200,
+               1,
+               -7,
+               200,
+               1
+            ]
+         },
+         "Model" : {
+            "potentialV" : [
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0
+            ],
+            "hubbardU" : [
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0
+            ]
+         },
+         "Geometry" : {
+            "DegreesOfFreedom" : 1,
+            "NumberOfTerms" : 1,
+            "GeometryOptions" : "ConstantValues",
+            "Connectors0" : [
+               1
+            ],
+            "GeometryKind" : "chain",
+            "TotalNumberOfSites" : 16
+         }
+      }
+   }
+}
+

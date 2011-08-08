@@ -1,0 +1,104 @@
+{
+   "programSpecific" : {
+      "DMRGPP" : {
+         "Dynamic" : {
+            "Threads" : 2
+         },
+         "Solver" : {
+            "Version" : "18846b60983586e6185bd2d797e7d639cc92ce0e",
+            "InfiniteLoopKeptStates" : 100,
+            "TargetQuantumNumbers" : [
+               0.5,
+               0.5
+            ],
+            "OutputFile" : "data2.txt",
+            "SolverOptions" : "hasQuantumNumbers,wft,nosu2,,hasThreads,",
+            "FiniteLoops" : [
+               7,
+               100,
+               0,
+               -7,
+               100,
+               0,
+               -7,
+               100,
+               0,
+               7,
+               100,
+               1,
+               7,
+               100,
+               1,
+               -2,
+               100,
+               1
+            ]
+         },
+         "Model" : {
+            "potentialV" : [
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0
+            ],
+            "hubbardU" : [
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0,
+               0
+            ]
+         },
+         "Geometry" : {
+            "DegreesOfFreedom" : 1,
+            "NumberOfTerms" : 1,
+            "GeometryOptions" : "ConstantValues",
+            "Connectors0" : [
+               1
+            ],
+            "GeometryKind" : "chain",
+            "TotalNumberOfSites" : 16
+         }
+      }
+   }
+}
+

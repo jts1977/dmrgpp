@@ -52,7 +52,7 @@ sub readKeyValue
 	open(FILE,$file) or die "Cannot open file $file: $!\n";
 	while(<FILE>) {
 		if (/(^[^=]+)=(.*)$/) {
-			$keyValue{$1}=$2 unless (/^density/);
+			$keyValue{$1}=$2 unless (/^density/ ||/^TSPFilename/);
 			next;	
 		}
 	
@@ -68,7 +68,7 @@ sub readKeyValue
 			$_ = <FILE>;
 			die "Problem reading RAWMATRIX\n" if (!defined($_));
 			my @colAndRow = split;
-			my @vv;
+			my @vV;
 			my $numberOfRows = $colAndRow[0] + 0;
 			for (my $i=0;$i<$numberOfRows;$i++) {
 				$_ = <FILE>;
@@ -76,13 +76,13 @@ sub readKeyValue
 				my @matrixTemp = split;
 				my @v2;
 				numberize(\@v2,\@matrixTemp);
-				$vv[$i] = \@v2;
+				$vV[$i] = \@v2;
 			}
-			$keyValue{"RAW_MATRIX"}=\@vv;
+			$keyValue{"RAW_MATRIX"}=\@vV;
 			next;
 		}
 
-		s/Connectors[ \t]/Connectors0/;
+		s/Connectors[ \s]/Connectors0 /;
 		s/ConnectorsX/Connectors0/;
 		s/ConnectorsY/Connectors1/;
 
@@ -123,7 +123,7 @@ sub findParent
 		or
 		$key eq "GeometryOptions"
 		or
-		$key eq "Connectors"
+		$key=~/Connectors.?/
 	);
 
 	return "Model" if (
@@ -145,8 +145,8 @@ sub findParent
 		or
 		$key eq "TargetQuantumNumbers" 
 	);
-	return "Pthreads" if (
-		$key eq "Pthreads"
+	return "Concurrency" if (
+		$key eq "Threads"
 	);
 	return "Dynamic";
 }
