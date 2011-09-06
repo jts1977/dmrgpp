@@ -49,6 +49,7 @@ sub readKeyValue
 {
 	my ($file)=@_;
 	my $buffer="";
+	my $connectorsCounter = 0;
 	open(FILE,$file) or die "Cannot open file $file: $!\n";
 	while(<FILE>) {
 		if (/(^[^=]+)=(.*)$/) {
@@ -82,10 +83,11 @@ sub readKeyValue
 			next;
 		}
 
-		s/Connectors[ \s]/Connectors0 /;
-		s/ConnectorsX/Connectors0/;
-		s/ConnectorsY/Connectors1/;
-
+		s/Connectors[ \s]/Connectors$connectorsCounter /;
+		s/ConnectorsX/Connectors0 /;
+		s/ConnectorsY/Connectors1 /;	
+		$connectorsCounter++;
+		
 		$buffer = $buffer.$_." ";
 		$buffer =~ s/^[\t \n]+//;
 		my @temp = split/[\t \n]+/,$buffer;
